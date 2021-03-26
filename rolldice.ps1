@@ -50,7 +50,9 @@ Roll 20 -advantage
         [Alias("A","disadvantage","d")]
         [switch]$advantage
     )
+    $global:rollLog += "---$dice---`n"
     $dice = $dice.ToLower() -replace(' ')
+    $results = @()
     #see if its simple or complex with multiple die types
     if ($dice -match '^([0-9]+d[0-9]+)[+]([0-9]+d[0-9]+)$') {
         #die are complex and being added, handle it
@@ -70,9 +72,9 @@ Roll 20 -advantage
             $d2 += $t
             $global:rollLog += "$t`n"
         }
-        $result = $d1 + $d2
+        $result += $d1 + $d2
         $global:rollLog += "---`n$d1 + $d2 = $result`n---------`n"
-        $result
+        #$result
     }
     elseif ($dice -match '^([0-9]+d[0-9]+)[-]([0-9]+d[0-9]+)$') {
         #die are complex and being subtracted, handle it
@@ -92,9 +94,9 @@ Roll 20 -advantage
             $d2 += $t
             $global:rollLog += "$t`n"
         }
-        $result = $d1 - $d2
+        $result += $d1 - $d2
         $global:rollLog += "---`n$d1 - $d2 = $result`n---------`n"
-        $result
+        #$result
     }
     elseif ($dice -match '^([0-9]+d[0-9]+)[+]([0-9]+)$') {
         #die are complex and being added, handle it
@@ -106,9 +108,9 @@ Roll 20 -advantage
             $global:rollLog += "$t`n"
             $d1 += $t
         }
-        $result = $d1 + $die[1]
+        $result += $d1 + $die[1]
         $global:rollLog += "---`n$d1 + $($die[1]) = $result`n---------`n"
-        $result
+        #$result
     }
     elseif ($dice -match '^([0-9]+d[0-9]+)[-]([0-9]+)$') {
         #die are complex and being added, handle it
@@ -120,30 +122,30 @@ Roll 20 -advantage
             $global:rollLog += "$t`n"
             $d1 += $t
         }
-        $result = $d1 - $die[1]
+        $result += $d1 - $die[1]
         $global:rollLog += "---`n$d1 - $($die[1]) = $result`n---------`n"
-        $result
+        #$result
     }
     elseif ($dice -match '^([0-9]+d[0-9]+)$') {
         #roll a single type of dice
         $splitDice = $dice.Split("d")
-        $result = 0
+        #$result = 0
         if($advantage) {
             for ($i=0;$i -lt [int]$splitDice[0];$i++) {
                 $thisRoll = get-random -minimum 1 -maximum ([int]$splitDice[1] + 1)
                 $global:rollLog += "$thisRoll`n"
                 $result += $thisRoll
             }
-            $result
-            $result = 0
+            #"$result`n"
+            #$result = 0
             $global:rollLog += "---`n"
             for ($i=0;$i -lt [int]$splitDice[0];$i++) {
                 $thisRoll = get-random -minimum 1 -maximum ([int]$splitDice[1] + 1)
                 $global:rollLog += "$thisRoll`n"
                 $result += $thisRoll
             }
-            $result
-            $global:rollLog += "`n---------`n"        
+            #"$result"
+            $global:rollLog += "---------`n"        
         }
         else{
             for ($i=0;$i -lt [int]$splitDice[0];$i++) {
@@ -151,8 +153,8 @@ Roll 20 -advantage
                 $global:rollLog += "$thisRoll`n"
                 $result += $thisRoll
             }
-            $result
-            $global:rollLog += "`n---------`n"
+            #$result
+            $global:rollLog += "---------`n"
         }
         
     }
@@ -161,22 +163,25 @@ Roll 20 -advantage
         [int]$die = [string]($dice -replace '\D')
         $thisRoll = get-random -minimum 1 -maximum ($die+1)
         $global:rollLog += "$thisRoll`n"
-        $thisRoll
+        $result += $thisRoll
         if($advantage) {
             $global:rollLog += "---`n"
             $thisRoll = get-random -minimum 1 -maximum ($die+1)
             $global:rollLog += "$thisRoll`n"
-            $thisRoll
+            $result += $thisRoll
         }
-        $global:rollLog += "`n---------`n"
+        $global:rollLog += "---------`n"
     }
     else {
         $global:rollLog += "ERROR: Dice must be in a standard format `"2d20`" , `"4d8+2d6`" , `"4d8+20`", `"4d8-100`"`n---------`n"
+        $result += 0
     }
+    $result
 }
 
 #where is the XAML file?
-$xamlFile = "F:\Downloads7\dice1\dice1\MainWindow.xaml"
+#$xamlFile = "F:\Downloads7\dice1\dice1\MainWindow.xaml"
+$xamlFile = "\\DESKTOP-NGS3IRS\Downloads7\dice1\dice1\MainWindow.xaml"
 
 #create window
 $inputXML = Get-Content $xamlFile -Raw
@@ -210,10 +215,78 @@ Get-Variable var_*
 $var_RollButton.Add_Click( {
    #clear the result box
    $var_Results.Text = ""
-       if ($result = roll $var_Input.Text) {
-           $var_Results.Text = "$result"
+       if ($var_NormalRadial.IsChecked -eq $true) {
+           if ($rollResult = roll $($var_Input.Text)) {
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }
+       elseif ($var_AdvantageRadial.IsChecked -eq $true) {
+           if ($rollResult = roll -advantage $($var_Input.Text)) {
+               $rollResult = $rollResult | sort -Descending
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }
+       elseif ($var_DisadvantageRadial.IsChecked -eq $true) {
+           if ($rollResult = roll -disadvantage $($var_Input.Text)) {
+               $rollResult = $rollResult | sort
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }    
+   })
+
+$var__1d100Button.Add_Click( {
+   #clear the result box
+   $var_Results.Text = ""
+       if ($rollResult = roll "1d100") {
+           $var_Results.Text = "$rollResult"
+           $var_history.Text = "$rollLog"
+       }       
+   })
+
+   $var__1d20Button.Add_Click( {
+   #clear the result box
+   $var_Results.Text = ""
+       if ($rollResult = roll "1d20") {
+           $var_Results.Text = "$rollResult"
+           $var_history.Text = "$rollLog"
+       }       
+   })
+
+   $var__1d4Button.Add_Click( {
+   #clear the result box
+   $var_Results.Text = ""
+       if ($rollResult = roll "1d4") {
+           $var_Results.Text = "$rollResult"
+           $var_history.Text = "$rollLog"
+       }       
+   })
+
+   $var__1d6Button.Add_Click( {
+   #clear the result box
+   $var_Results.Text = ""
+       if ($rollResult = roll "1d6") {
+           $var_Results.Text = "$rollResult"
+           $var_history.Text = "$rollLog"
+       }       
+   })
+
+   $var__1d8Button.Add_Click( {
+   #clear the result box
+   $var_Results.Text = ""
+       if ($rollResult = roll "1d8") {
+           $var_Results.Text = "$rollResult"
+           $var_history.Text = "$rollLog"
        }       
    })
 
 #$var_txtComputer.Text = $env:COMPUTERNAME
-$Null = $window.ShowDialog()
+$window.ShowDialog()
