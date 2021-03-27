@@ -1,0 +1,29 @@
+﻿<Window x:Name="Roller1" x:Class="MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:dice1"
+        mc:Ignorable="d"
+        Title="Fear in the Foundation Roller" Height="450" Width="800">
+    <Grid x:Name="Roller" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="Input" HorizontalAlignment="Left" Height="24" Margin="172,64,0,0" TextWrapping="Wrap" Text="1d100" VerticalAlignment="Top" Width="408"/>
+        <Button x:Name="RollButton" Content="Roll" HorizontalAlignment="Left" Margin="86,234,0,0" VerticalAlignment="Top" Width="159" Height="133" FontSize="48"/>
+        <RadioButton x:Name="NormalRadial" Content="Normal" HorizontalAlignment="Left" Margin="172,120,0,0" VerticalAlignment="Top" IsChecked="True"/>
+        <RadioButton x:Name="AdvantageRadial" Content="Advantage" HorizontalAlignment="Left" Margin="172,141,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="DisadvantageRadial" Content="Disadvantage" HorizontalAlignment="Left" Margin="172,162,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="Results" HorizontalAlignment="Left" Height="63" Margin="400,115,0,0" TextWrapping="Wrap" Text="Results" VerticalAlignment="Top" Width="180" FontSize="18" IsReadOnly="True"/>
+        <TextBox x:Name="History" HorizontalAlignment="Left" Height="156" Margin="400,211,0,0" TextWrapping="Wrap" Text="Roll History" VerticalAlignment="Top" Width="180" IsReadOnly="True" VerticalScrollBarVisibility="Visible"/>
+        <Button x:Name="_1d20Button" Content="1d20" HorizontalAlignment="Left" Margin="277,261,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="_1d100Button" Content="1d100" HorizontalAlignment="Left" Margin="277,234,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="_1d8Button" Content="1d8" HorizontalAlignment="Left" Margin="277,288,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="_1d6Button" Content="1d6" HorizontalAlignment="Left" Margin="277,315,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="_1d4Button" Content="1d4" HorizontalAlignment="Left" Margin="277,345,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBlock HorizontalAlignment="Left" Margin="97,67,0,0" TextWrapping="Wrap" Text="Input" VerticalAlignment="Top" FontSize="16"/>
+        <TextBlock HorizontalAlignment="Left" Margin="277,198,0,0" TextWrapping="Wrap" Text="Quick Rolls" VerticalAlignment="Top" FontSize="16"/>
+
+    </Grid>
+</Window>
