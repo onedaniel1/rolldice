@@ -52,7 +52,7 @@ Roll 20 -advantage
     )
     $global:rollLog += "---$dice---`n"
     $dice = $dice.ToLower() -replace(' ')
-    $results = @()
+    $result = @()
     #see if its simple or complex with multiple die types
     if ($dice -match '^([0-9]+d[0-9]+)[+]([0-9]+d[0-9]+)$') {
         #die are complex and being added, handle it
@@ -180,8 +180,9 @@ Roll 20 -advantage
 }
 
 #where is the XAML file?
-#$xamlFile = "F:\Downloads7\dice1\dice1\MainWindow.xaml"
-$xamlFile = "\\DESKTOP-NGS3IRS\Downloads7\dice1\dice1\MainWindow.xaml"
+$executingScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
+$xamlFile = Join-Path $executingScriptDirectory "MainWindow.xaml"
+#$xamlFile = "./MainWindow.xaml"
 
 #create window
 $inputXML = Get-Content $xamlFile -Raw
@@ -227,7 +228,7 @@ $var_RollButton.Add_Click( {
            if ($rollResult = roll -advantage $($var_Input.Text)) {
                $rollResult = $rollResult | sort -Descending
                foreach ($answer in $rollResult) {
-                    $var_Results.Text += "$answer"
+                    $var_Results.Text += "$answer`n"
                }
                $var_history.Text = "$rollLog"
            }
@@ -236,7 +237,7 @@ $var_RollButton.Add_Click( {
            if ($rollResult = roll -disadvantage $($var_Input.Text)) {
                $rollResult = $rollResult | sort
                foreach ($answer in $rollResult) {
-                    $var_Results.Text += "$answer"
+                    $var_Results.Text += "$answer`n"
                }
                $var_history.Text = "$rollLog"
            }
@@ -246,47 +247,156 @@ $var_RollButton.Add_Click( {
 $var__1d100Button.Add_Click( {
    #clear the result box
    $var_Results.Text = ""
-       if ($rollResult = roll "1d100") {
-           $var_Results.Text = "$rollResult"
-           $var_history.Text = "$rollLog"
-       }       
+       if ($var_NormalRadial.IsChecked -eq $true) {
+           if ($rollResult = roll "1d100") {
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }
+       elseif ($var_AdvantageRadial.IsChecked -eq $true) {
+           if ($rollResult = roll -advantage "1d100") {
+               $rollResult = $rollResult | sort -Descending
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer`n"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }
+       elseif ($var_DisadvantageRadial.IsChecked -eq $true) {
+           if ($rollResult = roll -disadvantage "1d100") {
+               $rollResult = $rollResult | sort
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer`n"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }    
    })
 
    $var__1d20Button.Add_Click( {
    #clear the result box
    $var_Results.Text = ""
-       if ($rollResult = roll "1d20") {
-           $var_Results.Text = "$rollResult"
-           $var_history.Text = "$rollLog"
-       }       
+       if ($var_NormalRadial.IsChecked -eq $true) {
+           if ($rollResult = roll "1d20") {
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }
+       elseif ($var_AdvantageRadial.IsChecked -eq $true) {
+           if ($rollResult = roll -advantage "1d20") {
+               $rollResult = $rollResult | sort -Descending
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer`n"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }
+       elseif ($var_DisadvantageRadial.IsChecked -eq $true) {
+           if ($rollResult = roll -disadvantage "1d20") {
+               $rollResult = $rollResult | sort
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer`n"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }    
    })
 
    $var__1d4Button.Add_Click( {
    #clear the result box
    $var_Results.Text = ""
-       if ($rollResult = roll "1d4") {
-           $var_Results.Text = "$rollResult"
-           $var_history.Text = "$rollLog"
-       }       
+       if ($var_NormalRadial.IsChecked -eq $true) {
+           if ($rollResult = roll "1d4") {
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }
+       elseif ($var_AdvantageRadial.IsChecked -eq $true) {
+           if ($rollResult = roll -advantage "1d4") {
+               $rollResult = $rollResult | sort -Descending
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer`n"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }
+       elseif ($var_DisadvantageRadial.IsChecked -eq $true) {
+           if ($rollResult = roll -disadvantage "1d4") {
+               $rollResult = $rollResult | sort
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer`n"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }    
    })
 
    $var__1d6Button.Add_Click( {
    #clear the result box
    $var_Results.Text = ""
-       if ($rollResult = roll "1d6") {
-           $var_Results.Text = "$rollResult"
-           $var_history.Text = "$rollLog"
-       }       
+       if ($var_NormalRadial.IsChecked -eq $true) {
+           if ($rollResult = roll "1d6") {
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }
+       elseif ($var_AdvantageRadial.IsChecked -eq $true) {
+           if ($rollResult = roll -advantage "1d6") {
+               $rollResult = $rollResult | sort -Descending
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer`n"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }
+       elseif ($var_DisadvantageRadial.IsChecked -eq $true) {
+           if ($rollResult = roll -disadvantage "1d6") {
+               $rollResult = $rollResult | sort
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer`n"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }    
    })
 
    $var__1d8Button.Add_Click( {
    #clear the result box
    $var_Results.Text = ""
-       if ($rollResult = roll "1d8") {
-           $var_Results.Text = "$rollResult"
-           $var_history.Text = "$rollLog"
-       }       
+       if ($var_NormalRadial.IsChecked -eq $true) {
+           if ($rollResult = roll "1d8") {
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }
+       elseif ($var_AdvantageRadial.IsChecked -eq $true) {
+           if ($rollResult = roll -advantage "1d8") {
+               $rollResult = $rollResult | sort -Descending
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer`n"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }
+       elseif ($var_DisadvantageRadial.IsChecked -eq $true) {
+           if ($rollResult = roll -disadvantage "1d8") {
+               $rollResult = $rollResult | sort
+               foreach ($answer in $rollResult) {
+                    $var_Results.Text += "$answer`n"
+               }
+               $var_history.Text = "$rollLog"
+           }
+       }    
    })
 
-#$var_txtComputer.Text = $env:COMPUTERNAME
 $window.ShowDialog()

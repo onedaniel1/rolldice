@@ -7,6 +7,7 @@
 This function accepts a wide variety of input with the goal of making complex rolls easy.
 No input = Roll 1d100
 Just a number (e.g. 20) = Roll a die with that many sides
+Just a number with the advantage flag (e.g. 20 -advantage) = Roll a die with that many sides twice and show both results
 A number followed by a d and then another number (e.g. 5d10) = roll first number of dice of second number of sides
 A number followed by a d and then another number + a number followed by a d and then another number (e.g. 1d8+2d6) = roll two types of dice and add the numbers together
 A number followed by a d and then another number + a number (e.g. 1d8+20) = roll first number of dice of second number of sides and add the number
